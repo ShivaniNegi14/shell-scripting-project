@@ -10,10 +10,10 @@ echo "AWS Account ID: $aws_account_id"
 
 # Set AWS region and bucket name
 aws_region="us-east-1"
-bucket_name="abhishek-ultimate-bucket"
+bucket_name="demo-bucket-shivani"
 lambda_func_name="s3-lambda-function"
 role_name="s3-lambda-sns"
-email_address="zyz@gmail.com"
+email_address="shivaninegi3001@gmail.com"
 
 # Create IAM Role for the project
 role_response=$(aws iam create-role --role-name s3-lambda-sns --assume-role-policy-document '{
@@ -48,7 +48,7 @@ bucket_output=$(aws s3api create-bucket --bucket "$bucket_name" --region "$aws_r
 echo "Bucket creation output: $bucket_output"
 
 # Upload a file to the bucket
-aws s3 cp ./example_file.txt s3://"$bucket_name"/example_file.txt
+aws s3 cp ./file.txt s3://"$bucket_name"/file.txt
 
 # Create a Zip file to upload Lambda Function
 zip -r s3-lambda-function.zip ./s3-lambda-function
@@ -96,14 +96,14 @@ echo "SNS Topic ARN: $topic_arn"
 
 # Add SNS publish permission to the Lambda Function
 aws sns subscribe \
-  --topic-arn "$topic_arn" \
+  --topic-arn "arn:aws:sns:us-east-1:959203656176:s3-lambda-sns" \
   --protocol email \
   --notification-endpoint "$email_address"
 
 # Publish SNS
 aws sns publish \
-  --topic-arn "$topic_arn" \
+  --topic-arn "arn:aws:sns:us-east-1:959203656176:s3-lambda-sns" \
   --subject "A new object created in s3 bucket" \
-  --message "Hello from Abhishek.Veeramalla YouTube channel, Learn DevOps Zero to Hero for Free"
+  --message "Hello!!"
 
 
